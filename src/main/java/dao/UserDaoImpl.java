@@ -20,8 +20,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void save(User user) {
-        String sql = "INSERT INTO spring.users (name, email, age) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getAge());
+        String sql = "INSERT INTO spring.users (name, email, password) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword());
 
     }
 
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     public void update(User user) {
         String sql = "UPDATE spring.users SET name=?, email=?, age=? WHERE id=?";
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getAge(), user.getId());
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword(), user.getId());
     }
 
     public void delete(int id) {

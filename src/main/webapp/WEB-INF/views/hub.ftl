@@ -7,7 +7,7 @@
 </head>
 <body>
  <@base.page_navbar>
-
  </@base.page_navbar>
+
 </body>
 </html>
