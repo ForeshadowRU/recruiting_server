@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/addUser")
     public String createUserPage() {
-        return "createUser";
+        return "auth";
     }
 
 

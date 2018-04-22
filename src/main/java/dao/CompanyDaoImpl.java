@@ -1,7 +1,7 @@
 package dao;
 
+import mapper.CompanyMapper;
 import model.Company;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,7 +20,8 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public void save(Company company) {
-
+        String sql = "INSERT INTO spring.companies(name, email, password) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql,company.getName(),company.getEmail(),company.getPassword());
     }
 
     public Company getById(int id) {
@@ -28,7 +29,9 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public List<Company> findAll() {
-        return null;
+        String sql = "SELECT * FROM spring.companies;";
+        return jdbcTemplate.query(sql, new CompanyMapper());
+
     }
 
     public void update(Company user) {
