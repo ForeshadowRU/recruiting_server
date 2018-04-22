@@ -18,15 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String hub() {
-        return "hub";
-    }
-    @GetMapping("/auth")
-    public String auth() {
-        return "auth";
-    }
-
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
