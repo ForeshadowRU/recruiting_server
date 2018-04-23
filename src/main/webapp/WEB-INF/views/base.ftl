@@ -33,7 +33,7 @@
                 <a class="nav-link" href="/companies">Companies</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Vacancies</a>
+                <a class="nav-link" href="/vacancies">Vacancies</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">About</a>

@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"dao", "service"})
+@ComponentScan(basePackages = {"dao.implementations", "service", "dao", "dao.interfaces"})
 public class SpringConfig {
     @Bean
     public JdbcTemplate getJdbcTemplate() {
@@ -19,10 +19,11 @@ public class SpringConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/?useSll=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/spring?useSll=false&serverTimezone=UTC");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setSchema("spring");
         return dataSource;
     }
 

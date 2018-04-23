@@ -1,5 +1,6 @@
-package dao;
+package dao.implementations;
 
+import dao.interfaces.UserDao;
 import mapper.UserMapper;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;

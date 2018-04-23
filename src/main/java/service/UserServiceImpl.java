@@ -1,6 +1,6 @@
 package service;
 
-import dao.UserDao;
+import dao.interfaces.UserDao;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
