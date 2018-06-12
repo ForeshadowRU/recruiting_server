@@ -21,28 +21,28 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void save(User user) {
-        String sql = "INSERT INTO spring.users (name, email, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO heroku_cf3d0b7baed81fe.users (name, email, password) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword());
 
     }
 
     public User getById(int id) {
-        String sql = "SELECT * FROM spring.users WHERE id=?";
+        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.users WHERE id=?";
         return jdbcTemplate.queryForObject(sql, new UserMapper(), id);
     }
 
     public List<User> findAll() {
-        String sql = "SELECT * FROM spring.users";
+        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.users";
         return jdbcTemplate.query(sql, new UserMapper());
     }
 
     public void update(User user) {
-        String sql = "UPDATE spring.users SET name=?, email=?, age=? WHERE id=?";
+        String sql = "UPDATE heroku_cf3d0b7baed81fe.users SET name=?, email=?, age=? WHERE id=?";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword(), user.getId());
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM spring.users WHERE id=?";
+        String sql = "DELETE FROM heroku_cf3d0b7baed81fe.users WHERE id=?";
         jdbcTemplate.update(sql, id);
 
     }

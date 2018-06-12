@@ -21,7 +21,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public void save(Company company) {
-        String sql = "INSERT INTO spring.companies(name, email, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO heroku_cf3d0b7baed81fe.companies(name, email, password) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql,company.getName(),company.getEmail(),company.getPassword());
     }
 
@@ -30,7 +30,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public List<Company> findAll() {
-        String sql = "SELECT * FROM spring.companies;";
+        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.companies;";
         return jdbcTemplate.query(sql, new CompanyMapper());
 
     }

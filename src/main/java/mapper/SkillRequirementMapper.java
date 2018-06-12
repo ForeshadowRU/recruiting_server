@@ -20,7 +20,7 @@ public class SkillRequirementMapper implements RowMapper<SkillRequirement> {
         SkillRequirement skill = new SkillRequirement();
         skill.setId(resultSet.getInt("id"));
         skill.setLevel(resultSet.getInt("level"));
-        String  sql = String.format("SELECT * FROM skill WHERE skill_id = %d",
+        String  sql = String.format("SELECT * FROM skills WHERE id = %d",
                 resultSet.getInt("skill_id"));
         skill.setSkill(jdbcTemplate.query(sql,new SkillMapper()).get(0));
         skill.setImportant(resultSet.getBoolean("important"));
