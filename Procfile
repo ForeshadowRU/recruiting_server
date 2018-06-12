@@ -1,1 +1,1 @@
-web: java -jar -Dserver.port=$PORT target/dependency/webapp-runner.jar target/*.war
+web:   java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT --session-store memcache --expand-war target/*.war
