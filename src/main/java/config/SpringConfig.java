@@ -19,10 +19,10 @@ public class SpringConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/spring?useSll=false&serverTimezone=UTC");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://eu-cdbr-west-02.cleardb.net:3306/heroku_4c0ae4e7e988136?reconnect=true");
+        dataSource.setUsername("ba55de07dc3b21");
+        dataSource.setPassword("b396563fc2c10f3");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setSchema("spring");
         return dataSource;
     }

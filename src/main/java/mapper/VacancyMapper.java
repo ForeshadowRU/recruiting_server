@@ -31,7 +31,7 @@ public class VacancyMapper implements RowMapper<Vacancy>{
         vacancy.setDescription(resultSet.getString("description"));
         vacancy.setAuthor(list.get(0));
 
-        sql = String.format("SELECT * FROM skill_requirement WHERE vacancy_id = %d",
+        sql = String.format("SELECT * FROM skill-requirements WHERE vacancy_id = %d",
                 resultSet.getInt("id"));
         vacancy.setRequirements(jdbcTemplate.query(sql,
                 new SkillRequirementMapper(jdbcTemplate)));

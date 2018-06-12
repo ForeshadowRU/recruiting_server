@@ -17,7 +17,13 @@ public class SkillRequirementMapper implements RowMapper<SkillRequirement> {
 
     public SkillRequirement mapRow(ResultSet resultSet, int i) throws SQLException {
 
-
-        return null;
+        SkillRequirement skill = new SkillRequirement();
+        skill.setId(resultSet.getInt("id"));
+        skill.setLevel(resultSet.getInt("level"));
+        String  sql = String.format("SELECT * FROM skill WHERE skill_id = %d",
+                resultSet.getInt("skill_id"));
+        skill.setSkill(jdbcTemplate.query(sql,new SkillMapper()).get(0));
+        skill.setImportant(resultSet.getBoolean("important"));
+        return skill;
     }
 }
