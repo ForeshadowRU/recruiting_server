@@ -23,7 +23,7 @@ public class VacancyMapper implements RowMapper<Vacancy>{
     public Vacancy mapRow(ResultSet resultSet, int i) throws SQLException {
         Vacancy vacancy = new Vacancy();
         int id = resultSet.getInt("author_id");
-        String sql = String.format("SELECT * FROM companies WHERE id = %d ",id);
+        String sql = String.format("SELECT * FROM users WHERE id = %d ",id);
         List<Company> list = jdbcTemplate.query(sql, new CompanyMapper());
         if (list.isEmpty()) throw new SQLException("No company with specified id found");
         vacancy.setId(resultSet.getInt("id"));

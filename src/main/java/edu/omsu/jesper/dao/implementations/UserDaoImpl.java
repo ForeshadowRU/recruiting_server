@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public List<User> findAll() {
-        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.users";
+        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.users WHERE user_type = 'TYPE_WORKER'";
         return jdbcTemplate.query(sql, new UserMapper());
     }
 
