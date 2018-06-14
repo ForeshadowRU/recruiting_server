@@ -24,11 +24,11 @@
                         <b>${require.skill.name}</b>
                         <#if require.important>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${require.level * 10}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>
+                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: ${require.level * 10}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10">${require.level}/10</div>
                         </div>
                         <#else>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: ${require.level * 10}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>
+                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: ${require.level * 10}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10">${require.level}/10</div>
                         </div>
                         </#if>
 
