@@ -1,4 +1,4 @@
-package edu.omsu.jesper.service;
+package edu.omsu.jesper.service.interfaces;
 
 import edu.omsu.jesper.model.Company;
 

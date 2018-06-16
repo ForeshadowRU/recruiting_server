@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import edu.omsu.jesper.service.CompanyService;
+import edu.omsu.jesper.service.interfaces.CompanyService;
 
 @Controller
 @RequestMapping("/")

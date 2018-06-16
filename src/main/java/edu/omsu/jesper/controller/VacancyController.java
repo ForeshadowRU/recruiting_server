@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import edu.omsu.jesper.service.VacancyService;
+import edu.omsu.jesper.service.interfaces.VacancyService;
 
 import java.util.ArrayList;
 import java.util.List;

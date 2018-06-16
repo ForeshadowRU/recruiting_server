@@ -1,7 +1,8 @@
-package edu.omsu.jesper.service;
+package edu.omsu.jesper.service.implementation;
 
 import edu.omsu.jesper.dao.interfaces.VacancyDao;
 import edu.omsu.jesper.model.Vacancy;
+import edu.omsu.jesper.service.interfaces.VacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
