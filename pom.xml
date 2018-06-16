@@ -59,20 +59,4 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.selenide.examples</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>RELEASE</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>edu.omsu.jesper.ApplicationStarter</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
