@@ -1,15 +1,12 @@
 package edu.omsu.jesper.mapper;
 
 import edu.omsu.jesper.model.Company;
-import edu.omsu.jesper.model.SkillRequirement;
 import edu.omsu.jesper.model.Vacancy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlInOutParameter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class VacancyMapper implements RowMapper<Vacancy>{

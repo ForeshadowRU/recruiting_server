@@ -1,17 +1,17 @@
 package edu.omsu.jesper.controller;
 
 import edu.omsu.jesper.model.Vacancy;
+import edu.omsu.jesper.service.interfaces.VacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import edu.omsu.jesper.service.interfaces.VacancyService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class VacancyController {
 
@@ -22,19 +22,19 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancies")
-    public String getVisibleVacancies(Model model)
+    public List<List<Vacancy>> getVisibleVacancies(Model model)
     {
         List<Vacancy> list = vacancyService.findVisible();
-        List<List<Vacancy>> rows = new ArrayList<List<Vacancy>>();
-        List<Vacancy> row = new ArrayList<Vacancy>();
+        List<List<Vacancy>> rows = new ArrayList<>();
+        List<Vacancy> row = new ArrayList<>();
         while(!list.isEmpty())
         {
             for(int i = 0; i < 3 && !list.isEmpty(); i++)
                 row.add(list.remove(0));
             rows.add(row);
-            row = new ArrayList<Vacancy>();
+            row = new ArrayList<>();
         }
         model.addAttribute("rows", rows);
-        return "vacancies";
+        return rows;
     }
 }
