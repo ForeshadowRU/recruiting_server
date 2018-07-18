@@ -6,24 +6,22 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class SkillRequirementMapper implements RowMapper<SkillRequirement> {
-
     private final JdbcTemplate jdbcTemplate;
 
     public SkillRequirementMapper(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public SkillRequirement mapRow(ResultSet resultSet, int i) throws SQLException {
-
-        SkillRequirement skill = new SkillRequirement();
-        skill.setId(resultSet.getInt("id"));
-        skill.setLevel(resultSet.getInt("level"));
-        String  sql = String.format("SELECT * FROM skills WHERE id = %d",
-                resultSet.getInt("skill_id"));
-        skill.setSkill(jdbcTemplate.query(sql,new SkillMapper()).get(0));
-        skill.setImportant(resultSet.getBoolean("important"));
-        return skill;
+        SkillRequirement skillRequirement = new SkillRequirement();
+        skillRequirement.setId(UUID.fromString(resultSet.getString("id")));
+        skillRequirement.setName(resultSet.getString("name"));
+        skillRequirement.setImportant(resultSet.getBoolean("isImportant"));
+        skillRequirement.setLevel(resultSet.getInt("requiredLevel"));
+        return skillRequirement;
     }
 }

@@ -2,7 +2,6 @@ package edu.omsu.jesper.dao.implementations;
 
 import edu.omsu.jesper.dao.interfaces.VacancyDao;
 import edu.omsu.jesper.mapper.VacancyMapper;
-import edu.omsu.jesper.model.SkillRequirement;
 import edu.omsu.jesper.model.Vacancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,23 +19,23 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
 
-    public List<Vacancy> findAll() {
+    public List<Vacancy> getAll() {
         String sql = "SELECT * FROM vacancies;";
         return jdbcTemplate.query(sql,new VacancyMapper(jdbcTemplate));
     }
 
-    public List<Vacancy> findVisible() {
-        String sql = "SELECT * FROM vacancies WHERE vacancies.hidden = 0;";
+    public List<Vacancy> getAllVisible() {
+        String sql = "SELECT * FROM vacancies WHERE vacancies.isHidden = 0;";
         return jdbcTemplate.query(sql, new VacancyMapper(jdbcTemplate));
     }
 
-    public List<Vacancy> findAllOfCompany(int companyId) {
-        String sql = String.format("SELECT * FROM vacancies WHERE author_id = %d;",companyId);
+    public List<Vacancy> getByCompany(int companyId) {
+        String sql = String.format("SELECT * FROM vacancies WHERE author_id = %s;", companyId);
         return jdbcTemplate.query(sql,new VacancyMapper(jdbcTemplate));
     }
 
     public void save(Vacancy vacancy) {
-        String sql = "INSERT INTO vacancies(name, description, author_id, hidden) VALUES (?,?,?,?)";
+       /* String sql = "INSERT INTO vacancies(name, description, authorId, isHidden) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql,vacancy.getName(),
                 vacancy.getDescription(),
                 vacancy.getAuthor().getId(),
@@ -44,7 +43,7 @@ public class VacancyDaoImpl implements VacancyDao {
         try
         {
             List<SkillRequirement> requirements = vacancy.getRequirements();
-            sql = "INSERT INTO skill_requirement(skill_id, vacancy_id, level, important)" +
+            sql = "INSERT INTO skillrequirements(id, vacancy_id, level, important)" +
                     " VALUES(?,?,?,?);";
             for (SkillRequirement requirement : requirements) {
                 jdbcTemplate.update(sql, requirement.getSkill().getId(),
@@ -54,7 +53,7 @@ public class VacancyDaoImpl implements VacancyDao {
         }catch (Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
 
 
     }

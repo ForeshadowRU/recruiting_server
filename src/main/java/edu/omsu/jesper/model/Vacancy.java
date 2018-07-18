@@ -1,38 +1,26 @@
 package edu.omsu.jesper.model;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Vacancy {
-    private int id;
+    private UUID id;
     private String name;
     private String description;
     private Company author;
     private boolean hidden;
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
+    private Date creationDate;
     private List<SkillRequirement> requirements;
 
     public Vacancy() {
     }
 
-    public Vacancy(String name, String description, Company author) {
-        this.name = name;
-        this.description = description;
-        this.author = author;
-    }
-
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -58,6 +46,22 @@ public class Vacancy {
 
     public void setAuthor(Company author) {
         this.author = author;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public List<SkillRequirement> getRequirements() {

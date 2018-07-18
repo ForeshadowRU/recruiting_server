@@ -21,8 +21,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public void save(Company company) {
-        String sql = "INSERT INTO heroku_cf3d0b7baed81fe.users(name, email, password, user_type) VALUES (?, ?, ?,'TYPE_COMPANY')";
-        jdbcTemplate.update(sql,company.getName(),company.getEmail(),company.getPassword());
+
     }
 
     public Company getById(int id) {
@@ -30,7 +29,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     public List<Company> findAll() {
-        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.users WHERE user_type = 'TYPE_COMPANY';";
+        String sql = "SELECT * FROM heroku_cf3d0b7baed81fe.companies;";
         return jdbcTemplate.query(sql, new CompanyMapper());
 
     }

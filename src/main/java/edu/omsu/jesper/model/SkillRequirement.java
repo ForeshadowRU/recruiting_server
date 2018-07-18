@@ -1,35 +1,37 @@
 package edu.omsu.jesper.model;
 
+import java.util.UUID;
+
 public class SkillRequirement {
-    private int id;
-    private Skill skill;
+    private UUID id;
+    private String name;
     private int level;
     private boolean important;
 
     public SkillRequirement() {
     }
 
-    public SkillRequirement(int id, Skill skill, int level, boolean important) {
+    public SkillRequirement(UUID id, String name, int level, boolean important) {
         this.id = id;
-        this.skill = skill;
+        this.name = name;
         this.level = level;
         this.important = important;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Skill getSkill() {
-        return skill;
+    public String getName() {
+        return name;
     }
 
-    public void setSkill(Skill skill) {
-        this.skill = skill;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getLevel() {

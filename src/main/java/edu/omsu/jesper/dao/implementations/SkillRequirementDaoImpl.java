@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
+
 @Repository
 public class SkillRequirementDaoImpl implements SkillRequirementDao {
 
@@ -21,20 +23,20 @@ public class SkillRequirementDaoImpl implements SkillRequirementDao {
 
     }
 
-    public SkillRequirement getById(int id) {
+    public SkillRequirement getById(UUID id) {
         return null;
     }
 
-    public List<SkillRequirement> findAllFromVacancy(int vacancyId) {
-        String sql = String.format("SELECT * FROM skill_requirement WHERE vacancy_id = %d",vacancyId);
-        return jdbcTemplate.query(sql,new SkillRequirementMapper(jdbcTemplate));
+    public List<SkillRequirement> findAllFromVacancy(UUID vacancyId) {
+        String sql = "SELECT * FROM skillrequirements WHERE vacancy_id = %d";
+        return jdbcTemplate.query(sql, new SkillRequirementMapper(jdbcTemplate), vacancyId.toString());
     }
 
     public void update(SkillRequirement skillRequirement) {
 
     }
 
-    public void delete(int id) {
+    public void delete(UUID id) {
 
     }
 }

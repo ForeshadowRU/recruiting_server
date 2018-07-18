@@ -17,15 +17,15 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     public List<Vacancy> findAll() {
-        return vacancyDao.findAll();
+        return vacancyDao.getAll();
     }
 
     public List<Vacancy> findVisible() {
-        return vacancyDao.findVisible();
+        return vacancyDao.getAllVisible();
     }
 
     public List<Vacancy> findAllOfCompany(int companyId) {
-        return vacancyDao.findAllOfCompany(companyId);
+        return vacancyDao.getByCompany(companyId);
     }
 
     public void save(Vacancy vacancy) throws Exception {

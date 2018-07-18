@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface VacancyDao {
 
-    List<Vacancy> findAll();
+    List<Vacancy> getAll();
 
-    List<Vacancy> findVisible();
+    List<Vacancy> getAllVisible();
 
-    List<Vacancy> findAllOfCompany(int companyId);
+    List<Vacancy> getByCompany(int companyId);
 
     void save(Vacancy vacancy) throws Exception;
 
