@@ -1,5 +1,7 @@
 package edu.omsu.jesper.model;
 
+import edu.omsu.jesper.enums.SalaryType;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -7,8 +9,11 @@ import java.util.UUID;
 public class Vacancy {
     private UUID id;
     private String name;
+    private String fullDescription;
     private String description;
     private Company author;
+    private double salary;
+    private SalaryType type;
     private boolean hidden;
     private Date creationDate;
     private List<SkillRequirement> requirements;
@@ -58,6 +63,30 @@ public class Vacancy {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public String getFullDescription() {
+        return fullDescription;
+    }
+
+    public void setFullDescription(String fullDescription) {
+        this.fullDescription = fullDescription;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public SalaryType getType() {
+        return type;
+    }
+
+    public void setType(SalaryType type) {
+        this.type = type;
     }
 
     public void setCreationDate(Date creationDate) {

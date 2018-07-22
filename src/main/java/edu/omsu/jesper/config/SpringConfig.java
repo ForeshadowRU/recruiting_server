@@ -19,10 +19,9 @@ public class SpringConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/heroku_cf3d0b7baed81fe?reconnect=true");
-        dataSource.setUsername("bc6fd1fa7761e4");
-        dataSource.setPassword("b4892461");
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("spring.datasource.url");
+        dataSource.setUsername("spring.datasource.username");
+        dataSource.setPassword("spring.datasource.password");
         return dataSource;
     }
 
