@@ -5,38 +5,49 @@ import edu.omsu.jesper.mapper.SkillRequirementMapper;
 import edu.omsu.jesper.model.SkillRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Repository
+@Service
 public class SkillRequirementDaoImpl implements SkillRequirementDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate template;
+    private String sql;
+
     @Autowired
-    public SkillRequirementDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public SkillRequirementDaoImpl(JdbcTemplate template) {
+        this.template = template;
     }
 
-    public void save(SkillRequirement skillRequirement) {
+
+    @Override
+    public void save(UUID vacancyId, SkillRequirement skillRequirement) {
+        sql = "INSERT INTO `recruiting-server`.skill_requirements(vacancy_id, name, level,important)" +
+                " values (?,?,?,?)";
+        template.update(sql, preparedStatement -> {
+            preparedStatement.setString(1, vacancyId.toString());
+            preparedStatement.setString(2, skillRequirement.getName());
+            preparedStatement.setInt(3, skillRequirement.getLevel());
+            preparedStatement.setBoolean(4, skillRequirement.isImportant());
+        });
+    }
+
+    @Override
+    public void update(UUID vacancyId, String skillName, SkillRequirement newValue) {
 
     }
 
-    public SkillRequirement getById(UUID id) {
-        return null;
-    }
-
-    public List<SkillRequirement> findAllFromVacancy(UUID vacancyId) {
-        String sql = "SELECT * FROM skillrequirements WHERE vacancy_id = %d";
-        return jdbcTemplate.query(sql, new SkillRequirementMapper(jdbcTemplate), vacancyId.toString());
-    }
-
-    public void update(SkillRequirement skillRequirement) {
+    @Override
+    public void delete(UUID vacancyID, String skillName) {
 
     }
 
-    public void delete(UUID id) {
-
+    @Override
+    public List<String> getAllSkills() {
+        sql = "SELECT * FROM `recruiting-server`.skill_requirements";
+        return template.query(sql, new SkillRequirementMapper()).stream().map(SkillRequirement::getName).distinct().collect(Collectors.toList());
     }
 }

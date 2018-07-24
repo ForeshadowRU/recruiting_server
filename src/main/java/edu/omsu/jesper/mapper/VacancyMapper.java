@@ -32,7 +32,7 @@ public class VacancyMapper implements RowMapper<Vacancy> {
         sql = "SELECT * FROM skillrequirements WHERE vacancy_id = ?";
 
         vacancy.setRequirements(jdbcTemplate.query(sql,
-                new SkillRequirementMapper(jdbcTemplate), vacancy.getId().toString()));
+                new SkillRequirementMapper(), vacancy.getId().toString()));
 
         return vacancy;
     }

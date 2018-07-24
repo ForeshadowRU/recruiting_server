@@ -3,7 +3,7 @@ package edu.omsu.jesper.model;
 import java.util.UUID;
 
 public class SkillRequirement {
-    private UUID id;
+    private UUID vacancyId;
     private String name;
     private int level;
     private boolean important;
@@ -11,19 +11,19 @@ public class SkillRequirement {
     public SkillRequirement() {
     }
 
-    public SkillRequirement(UUID id, String name, int level, boolean important) {
-        this.id = id;
+    public SkillRequirement(UUID vacancyId, String name, int level, boolean important) {
+        this.vacancyId = vacancyId;
         this.name = name;
         this.level = level;
         this.important = important;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getVacancyId() {
+        return vacancyId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setVacancyId(UUID vacancyId) {
+        this.vacancyId = vacancyId;
     }
 
     public String getName() {

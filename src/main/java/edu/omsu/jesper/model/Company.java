@@ -1,19 +1,16 @@
 package edu.omsu.jesper.model;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Company {
     private UUID id;
     private String name;
     private String email;
+    private LocalDate registrationDate;
+    private LocalDate foundationDate;
 
     public Company() {
-    }
-
-    public Company(UUID id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
     }
 
     public UUID getId() {
@@ -38,5 +35,21 @@ public class Company {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public LocalDate getFoundationDate() {
+        return foundationDate;
+    }
+
+    public void setFoundationDate(LocalDate foundationDate) {
+        this.foundationDate = foundationDate;
     }
 }

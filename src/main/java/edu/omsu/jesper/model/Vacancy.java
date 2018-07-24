@@ -1,5 +1,6 @@
 package edu.omsu.jesper.model;
 
+import edu.omsu.jesper.enums.SalaryCurrency;
 import edu.omsu.jesper.enums.SalaryType;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class Vacancy {
     private Company author;
     private double salary;
     private SalaryType type;
+    private SalaryCurrency currency;
     private boolean hidden;
     private Date creationDate;
     private List<SkillRequirement> requirements;
@@ -59,6 +61,14 @@ public class Vacancy {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public SalaryCurrency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(SalaryCurrency currency) {
+        this.currency = currency;
     }
 
     public Date getCreationDate() {

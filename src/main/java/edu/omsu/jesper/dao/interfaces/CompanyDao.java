@@ -1,19 +1,24 @@
 package edu.omsu.jesper.dao.interfaces;
 
 import edu.omsu.jesper.model.Company;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
+@Service
 public interface CompanyDao {
+
+    List<Company> get();
+
+    List<Company> get(int amount);
+
+    Company get(UUID id);
 
     void save(Company company);
 
-    Company getById(int id);
+    void update(UUID id, Company newValue);
 
-    List<Company> findAll();
-
-    void update(Company company);
-
-    void delete(int id);
+    void delete(UUID id);
 
 }

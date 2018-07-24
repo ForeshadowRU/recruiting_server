@@ -7,16 +7,12 @@ import java.util.UUID;
 
 public interface SkillRequirementDao {
 
-    void save(SkillRequirement skillRequirement);
+    void save(UUID vacancyId, SkillRequirement skillRequirement);
 
-    SkillRequirement getById(UUID id);
+    void update(UUID vacancyId, String skillName, SkillRequirement newValue);
 
-    //List<SkillRequirement> getAll();
+    void delete(UUID vacancyID, String skillName);
 
-    List<SkillRequirement> findAllFromVacancy(UUID vacancyId);
-
-    void update(SkillRequirement skillRequirement);
-
-    void delete(UUID id);
+    List<String> getAllSkills();
 
 }

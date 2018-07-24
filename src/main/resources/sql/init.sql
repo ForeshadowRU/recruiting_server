@@ -20,7 +20,7 @@ create table skill_requirements
   important  tinyint(1) default '0' null,
   primary key (vacancy_id, name),
   constraint skill_requirements_fk
-  foreign key (vacancy_id) references vacancies (id),
+  foreign key (vacancy_id) references vacancies (vacancyId),
   constraint skill_rq_name_fk
   foreign key (name) references skills (name)
 );
@@ -31,7 +31,7 @@ create index skill_rq_name_fk
 
 create table vacancies
 (
-  id            varchar(36)        not null
+  vacancyId     varchar(36)        not null
     primary key,
   name          varchar(100)       not null,
   description   text               not null,
@@ -39,7 +39,7 @@ create table vacancies
   hidden        int(1) default '0' null,
   creation_date datetime           null,
   constraint vacancies_fk
-  foreign key (author_id) references companies (id)
+  foreign key (author_id) references companies (vacancyId)
 );
 
 create index vacancies_fk
@@ -47,7 +47,7 @@ create index vacancies_fk
 
 create table companies
 (
-  id                varchar(36)  not null
+  vacancyId         varchar(36)  not null
     primary key,
   name              varchar(125) not null,
   contact_email     varchar(160) not null,

@@ -12,8 +12,10 @@ public class CompanyMapper implements RowMapper<Company> {
     public Company mapRow(ResultSet resultSet, int i) throws SQLException {
         Company company = new Company();
         company.setName(resultSet.getString("name"));
-        company.setEmail(resultSet.getString("email"));
+        company.setEmail(resultSet.getString("contact_email"));
         company.setId(UUID.fromString(resultSet.getString("id")));
+        company.setFoundationDate(resultSet.getDate("foundation_date").toLocalDate());
+        company.setRegistrationDate(resultSet.getDate("registration_date").toLocalDate());
         return company;
     }
 }
