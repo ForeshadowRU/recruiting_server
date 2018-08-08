@@ -1,57 +1,38 @@
 package edu.omsu.jesper.controller;
 
-import edu.omsu.jesper.dao.interfaces.CompanyDao;
-import edu.omsu.jesper.model.Company;
+import edu.omsu.jesper.dao.interfaces.VacancyDao;
+import edu.omsu.jesper.model.Vacancy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @ComponentScan("edu.omsu.jesper.dao.implementations")
-@RequestMapping("/")
+@RequestMapping("/vacancies/")
 public class VacancyController {
 
+    private final VacancyDao dao;
+
     @Autowired
-    public VacancyController(CompanyDao companyDao) {
-        this.companyDao = companyDao;
+    public VacancyController(@Qualifier("vacancyDaoImpl") VacancyDao dao) {
+        this.dao = dao;
     }
 
-    final private CompanyDao companyDao;
-
-    /*  @GetMapping("/vacancies")
-      public List<List<Vacancy>> getVisibleVacancies(Model model)
-      {
-          List<Vacancy> list = vacancyService.findVisible();
-          List<List<Vacancy>> rows = new ArrayList<>();
-          List<Vacancy> row = new ArrayList<>();
-          while(!list.isEmpty())
-          {
-              for(int i = 0; i < 3 && !list.isEmpty(); i++)
-                  row.add(list.remove(0));
-              rows.add(row);
-              row = new ArrayList<>();
-          }
-          model.addAttribute("rows", rows);
-          return rows;
-      }*/
-    @GetMapping("/companies")
-    public List<Company> getAll() {
-        return companyDao.get();
+    @GetMapping("/")
+    public List<Vacancy> getVisibleVacancies() {
+        return dao.get();
     }
 
-    @GetMapping("/companies/{id}")
-    public Company getById(@PathVariable String id) {
-        return companyDao.get(UUID.fromString(id));
+    @GetMapping("/")
+    public List<Vacancy> get(@PathVariable String id) {
+        return dao.get(UUID.fromString(id));
     }
 
-    @PostMapping("/companies")
-    public ResponseEntity add(@RequestBody Company company) {
-        companyDao.save(company);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
 }
