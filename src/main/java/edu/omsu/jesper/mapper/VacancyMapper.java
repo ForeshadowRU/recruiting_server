@@ -1,5 +1,6 @@
 package edu.omsu.jesper.mapper;
 
+import edu.omsu.jesper.enums.SalaryCurrency;
 import edu.omsu.jesper.model.Company;
 import edu.omsu.jesper.model.Vacancy;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,12 +24,14 @@ public class VacancyMapper implements RowMapper<Vacancy> {
         UUID id = UUID.fromString(resultSet.getString("authorId"));
         String sql = "SELECT * FROM companies WHERE id = ?";
         List<Company> list = jdbcTemplate.query(sql, new CompanyMapper(), id.toString());
-        if (list.isEmpty()) throw new SQLException("No company with specified id found");
         vacancy.setId(id);
         vacancy.setName(resultSet.getString("name"));
         vacancy.setDescription(resultSet.getString("description"));
         vacancy.setAuthor(list.get(0));
         vacancy.setCreationDate(resultSet.getDate("creationDate"));
+        SalaryCurrency currency;
+
+
         sql = "SELECT * FROM skillrequirements WHERE vacancy_id = ?";
 
         vacancy.setRequirements(jdbcTemplate.query(sql,

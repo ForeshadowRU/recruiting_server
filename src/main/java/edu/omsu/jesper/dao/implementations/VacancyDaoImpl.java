@@ -26,7 +26,7 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public List<Vacancy> get() {
-        String sql = "SELECT * FROM `recruiting-server`.vacancies";
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id";
         return template.query(sql, new VacancyMapper(template));
     }
 
