@@ -20,9 +20,9 @@ public class SpringConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("");
-        dataSource.setUsername("");
-        dataSource.setPassword("");
+        dataSource.setUrl("jdbc:mysql://omsu-projects.mysql.database.azure.com:3306/recruiting-server?useSSL=true&requireSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        dataSource.setUsername("jesper@omsu-projects");
+        dataSource.setPassword("Iey4waetie6geen");
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setSchema("recruiting-server");
         return dataSource;

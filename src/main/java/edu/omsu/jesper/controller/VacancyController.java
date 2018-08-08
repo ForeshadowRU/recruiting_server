@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @ComponentScan("edu.omsu.jesper.dao.implementations")
-@RequestMapping("/vacancies/")
+@RequestMapping("/vacancies")
 public class VacancyController {
 
     private final VacancyDao dao;
@@ -30,7 +30,7 @@ public class VacancyController {
         return dao.get();
     }
 
-    @GetMapping("/")
+    @GetMapping("/{id}")
     public List<Vacancy> get(@PathVariable String id) {
         return dao.get(UUID.fromString(id));
     }

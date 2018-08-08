@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/companies/")
+@RequestMapping("/companies")
 public class CompanyController {
     private final CompanyDao companyDao;
 
@@ -21,7 +21,7 @@ public class CompanyController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/companies")
+    @GetMapping("/")
     public List<Company> getAll() {
 
         return companyDao.get();
@@ -34,7 +34,7 @@ public class CompanyController {
         return companyDao.get(UUID.fromString(id));
     }
 
-    @PostMapping("/companies")
+    @PostMapping("/")
     public ResponseEntity add(@RequestBody Company company) {
         companyDao.save(company);
         return new ResponseEntity(HttpStatus.CREATED);
