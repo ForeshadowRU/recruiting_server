@@ -50,15 +50,15 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public List<SkillRequirement> getImportantSkills() {
-        String sql = "SELECT * FROM `recruiting-server`.skill_requirements WHERE important = 1";
-        return template.query(sql, new SkillRequirementMapper());
+    public List<SkillRequirement> getImportantSkills(Vacancy vacancy) {
+        String sql = "SELECT * FROM `recruiting-server`.skill_requirements WHERE (important = 1 AND vacancy_id = ?)";
+        return template.query(sql, new SkillRequirementMapper(), vacancy.getId().toString());
     }
 
     @Override
-    public List<SkillRequirement> getSignificantSkills() {
-        String sql = "SELECT * FROM `recruiting-server`.skill_requirements WHERE important = 1 ORDER BY level ASC  LIMIT 3";
-        return template.query(sql, new SkillRequirementMapper());
+    public List<SkillRequirement> getSignificantSkills(Vacancy vacancy) {
+        String sql = "SELECT * FROM `recruiting-server`.skill_requirements WHERE (important = 1 and vacancy_id = ?) ORDER BY level ASC  LIMIT 3";
+        return template.query(sql, new SkillRequirementMapper(), vacancy.getId().toString());
     }
 
     @Override

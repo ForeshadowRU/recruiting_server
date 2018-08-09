@@ -3,7 +3,6 @@ package edu.omsu.jesper.controller;
 import edu.omsu.jesper.dao.interfaces.VacancyDao;
 import edu.omsu.jesper.model.Vacancy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,7 @@ public class VacancyController {
     private final VacancyDao dao;
 
     @Autowired
-    public VacancyController(@Qualifier("vacancyDaoImpl") VacancyDao dao) {
+    public VacancyController(VacancyDao dao) {
         this.dao = dao;
     }
 

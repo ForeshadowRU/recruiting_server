@@ -3,12 +3,10 @@ package edu.omsu.jesper.dao.interfaces;
 import edu.omsu.jesper.model.Company;
 import edu.omsu.jesper.model.SkillRequirement;
 import edu.omsu.jesper.model.Vacancy;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
 public interface VacancyDao {
 
     List<Vacancy> get();
@@ -19,9 +17,9 @@ public interface VacancyDao {
 
     List<Vacancy> getByAuthor(Company company);
 
-    List<SkillRequirement> getImportantSkills();
+    List<SkillRequirement> getImportantSkills(Vacancy vacancy);
 
-    List<SkillRequirement> getSignificantSkills();
+    List<SkillRequirement> getSignificantSkills(Vacancy vacancy);
 
     void save(Vacancy vacancy);
 
