@@ -1,3 +1,4 @@
+
 package edu.omsu.jesper.service.implementation;
 
 import edu.omsu.jesper.dao.interfaces.VacancyDao;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VacancyServiceImpl implements VacancyService {
@@ -20,8 +22,12 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
 
-    public List<Vacancy> requireSkill(SkillRequirement skill) {
-        return null;
-
+    @Override
+    public List<Vacancy> requireSkills(List<String> skills) {
+        return dao.get().stream().filter((vacancy -> {
+            List<String> skillNames = vacancy.getRequirements().stream().map(SkillRequirement::getName).collect(Collectors.toList());
+            return skillNames.containsAll(skills);
+        }
+        )).collect(Collectors.toList());
     }
 }

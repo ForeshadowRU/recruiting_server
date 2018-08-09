@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "url.fronted-server",
+      "type": "java.lang.String",
+      "description": "Description for url.fronted-server."
+    },
+    {
+      "name": "url.backend-server",
+      "type": "java.lang.String",
+      "description": "Description for url.backend-server."
+    }
+  ]
+}

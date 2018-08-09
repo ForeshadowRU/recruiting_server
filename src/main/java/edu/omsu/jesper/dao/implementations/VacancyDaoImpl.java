@@ -33,19 +33,23 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public List<Vacancy> get(UUID id) {
-        String sql = "SELECT * FROM `recruiting-server`.vacancies WHERE id = ?";
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies " +
+                "RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id" +
+                " WHERE id = ?";
         return template.query(sql, new VacancyMapper(template), id.toString());
     }
 
     @Override
     public List<Vacancy> getByAuthor(UUID authorId) {
-        String sql = "SELECT * FROM `recruiting-server`.vacancies WHERE author_id = ?";
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies" +
+                " RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id WHERE author_id = ?";
         return template.query(sql, new VacancyMapper(template), authorId.toString());
     }
 
     @Override
     public List<Vacancy> getByAuthor(Company company) {
-        String sql = "SELECT * FROM `recruiting-server`.vacancies WHERE author_id = ?";
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies" +
+                " RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id WHERE author_id = ?";
         return template.query(sql, new VacancyMapper(template), company.getId().toString());
     }
 
