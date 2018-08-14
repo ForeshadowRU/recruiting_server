@@ -1,6 +1,7 @@
 package edu.omsu.jesper.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -13,7 +14,7 @@ public class User implements UserDetails {
     private String secondName;
     private String password;
     private Company company;
-    Collection<? extends GrantedAuthority> privileges;
+    private Collection<SimpleGrantedAuthority> privileges;
 
     @Override
     public boolean equals(Object o) {
@@ -38,7 +39,7 @@ public class User implements UserDetails {
         return privileges;
     }
 
-    public void setPrivileges(Collection<? extends GrantedAuthority> privileges) {
+    public void setPrivileges(Collection<SimpleGrantedAuthority> privileges) {
         this.privileges = privileges;
     }
 
