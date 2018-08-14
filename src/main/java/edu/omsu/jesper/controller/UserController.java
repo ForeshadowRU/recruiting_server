@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    final UserAuthenticationService authentication;
+    private final UserAuthenticationService authentication;
 
     @Autowired
     public UserController(UserAuthenticationService authentication) {
@@ -19,12 +19,12 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    User getCurrent(@AuthenticationPrincipal final User user) {
+    public User getCurrent(@AuthenticationPrincipal final User user) {
         return user;
     }
 
     @GetMapping("/logout")
-    boolean logout(@AuthenticationPrincipal final User user) {
+    public boolean logout(@AuthenticationPrincipal final User user) {
         authentication.logout(user);
         return true;
     }

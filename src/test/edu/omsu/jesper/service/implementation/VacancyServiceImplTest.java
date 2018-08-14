@@ -1,6 +1,5 @@
 package edu.omsu.jesper.service.implementation;
 
-import io.restassured.RestAssured;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,9 +12,6 @@ public class VacancyServiceImplTest {
 
     @Test
     public void requireSkill() {
-
-        RestAssured.get("");
-
 
     }
 

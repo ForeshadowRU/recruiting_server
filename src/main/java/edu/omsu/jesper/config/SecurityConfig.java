@@ -63,7 +63,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .logout().disable()
-                .authorizeRequests().antMatchers("/public/**").permitAll();
+                .authorizeRequests().antMatchers("/public/**", "/error").permitAll();
     }
 
     protected TokenAuthenticationFilter getJwtFilter() throws Exception {

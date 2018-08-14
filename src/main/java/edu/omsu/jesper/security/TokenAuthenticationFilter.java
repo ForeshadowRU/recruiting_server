@@ -50,7 +50,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
                                               HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
 
-        response.getWriter().print("AUTH FAILED:");
+        response.getWriter().print("AUTH FAILED.\nReason:");
         response.getWriter().print(failed);
     }
 

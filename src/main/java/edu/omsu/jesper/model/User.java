@@ -3,21 +3,33 @@ package edu.omsu.jesper.model;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
 public class User implements UserDetails {
-
+    @Size(min = 5, max = 50)
     private String username;
+    @Size(max = 50)
     private String firstName;
+    @Size(max = 50)
     private String secondName;
+    @Size(max = 60)
     private String password;
     private Company company;
+    @Size(max = 100)
+    @NotNull
+    private String email;
+    @Pattern(regexp = "\\d{10}|(?:\\d{3}-){2}\\d{4}|(\\d{3})\\d{3}-?\\d{4}")
+    private String phoneNumber;
+    @NotNull
     private Collection<SimpleGrantedAuthority> authorities;
-    private boolean enabled;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean accountNonExpired;
+    private boolean enabled = true;
+    private boolean accountNonLocked = true;
+    private boolean credentialsNonExpired = true;
+    private boolean accountNonExpired = true;
 
     public User() {
     }
@@ -70,6 +82,22 @@ public class User implements UserDetails {
 
     public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
