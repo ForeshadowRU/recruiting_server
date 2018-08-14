@@ -31,7 +31,7 @@ public class UserValidation {
         user.setEmail("dummy@yandex.ru");
         user.setSecondName("Krasov");
         user.setFirstName("Ilusha");
-        user.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        user.setAuthorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertTrue(violations.isEmpty());
 

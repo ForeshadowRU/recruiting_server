@@ -2,16 +2,17 @@ package edu.omsu.jesper.dao.implementations;
 
 import edu.omsu.jesper.dao.interfaces.UserDao;
 import edu.omsu.jesper.mapper.CompanyMapper;
+import edu.omsu.jesper.model.Company;
 import edu.omsu.jesper.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @Service
 public class UserDaoImpl implements UserDao {
@@ -21,6 +22,25 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     public UserDaoImpl(JdbcTemplate template) {
         this.template = template;
+    }
+
+    public boolean checkExistence(String username) {
+
+        String sql = "SELECT username FROM `recruiting-server`.users";
+        List<String> list = template.query(sql, extractor -> {
+            List<String> usernames = new ArrayList<>();
+            while (extractor.next()) {
+                usernames.add(extractor.getString("username"));
+            }
+            return usernames;
+        });
+        if (list == null) return false;
+        return list.contains(username);
+    }
+
+    @Override
+    public boolean checkExistence(User user) {
+        return checkExistence(user.getUsername());
     }
 
     public User get(String username) {
@@ -33,7 +53,7 @@ public class UserDaoImpl implements UserDao {
                         user.setPassword(extractor.getString("password"));
                         user.setFirstName(extractor.getString("first_name"));
                         user.setSecondName(extractor.getString("second_name"));
-                        user.setAuthorities(Collections.singleton(new SimpleGrantedAuthority(extractor.getString("privileges"))));
+                        user.setAuthorities(Collections.singletonList(new SimpleGrantedAuthority(extractor.getString("privileges"))));
                         user.setEnabled(extractor.getBoolean("enabled"));
                         user.setAccountNonLocked(!extractor.getBoolean("locked"));
                         user.setCredentialsNonExpired(!extractor.getBoolean("expired"));
@@ -63,7 +83,7 @@ public class UserDaoImpl implements UserDao {
                         user.setPassword(extractor.getString("password"));
                         user.setFirstName(extractor.getString("first_name"));
                         user.setSecondName(extractor.getString("second_name"));
-                        user.setAuthorities(Collections.singleton(new SimpleGrantedAuthority(extractor.getString("privileges"))));
+                        user.setAuthorities(Collections.singletonList(new SimpleGrantedAuthority(extractor.getString("privileges"))));
                         user.setEnabled(extractor.getBoolean("enabled"));
                         user.setAccountNonLocked(!extractor.getBoolean("locked"));
                         user.setCredentialsNonExpired(!extractor.getBoolean("expired"));
@@ -111,14 +131,113 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    public Map<String, Object> getDifference(String username, User newValue) throws IllegalAccessException {
+        Field[] fields = User.class.getDeclaredFields();
+        Map<String, Object> diff = new HashMap<>();
+        User user = get(username);
+        if (user == null)
+            throw new UsernameNotFoundException(String.format("Username %s not found", username));
+        for (Field field : fields) {
+            field.setAccessible(true);
+
+            Object firstValue = field.get(user);
+            Object secondValue = field.get(newValue);
+            if (firstValue == null && secondValue != null) {
+                diff.put(field.getName(), secondValue);
+                continue;
+            }
+            if (firstValue != null && secondValue == null) {
+                diff.put(field.getName(), null);
+                continue;
+            }
+            if (firstValue == null) continue;
+            if (!firstValue.equals(secondValue)) {
+                diff.put(field.getName(), field.get(newValue));
+            }
+        }
+        return diff;
+    }
+
+    /*   private List<String> getColumnNames(String tableName) {
+           String sql = "SELECT `COLUMN_NAME` \n" +
+                   "FROM `information_schema`.`COLUMNS` \n" +
+                   "WHERE `TABLE_SCHEMA`='recruiting-server' \n" +
+                   "    AND `TABLE_NAME`= ?";
+           return template.query(sql, setter -> setter.setString(1, tableName), extractor -> {
+               List<String> list = new ArrayList<>();
+               while (extractor.next()) {
+                   list.add(extractor.getString("COLUMN_NAME"));
+               }
+               return list;
+           });
+       }/*
+
+       private Map<String, Object> toDatabaseName(Map<String, Object> baseMap) {
+
+           List<String> users = getColumnNames("users");
+           List<Object> values = new ArrayList<>(baseMap.values());
+
+           Set<String> keys = baseMap.keySet();
+           for (String key : keys) {
+
+           }
+       }
+
+   /*
+       public void update(String fieldName, Object value) {
+           String sql = "UPDATE `recruiting-server`.users" +
+                   " SET ? = ?";
+           if (value instanceof String)
+               template.update(sql, setter -> {
+                   setter.setString(1, fieldName);
+                   setter.setString(2, (String) value);
+               });
+           else template.update(sql, setter -> {
+               setter.setString(1, fieldName);
+               setter.setBoolean(2, (Boolean) value);
+           });
+
+       }
+   */
+    //this is very borying Should write my own Hibernate with blackjack and hookers;
     @Override
     public void update(String username, User newValue) {
-        //later
+        String sql = "UPDATE `recruiting-server`.users " +
+                "SET username = ?, " +
+                "password = ?, " +
+                "first_name = ?, " +
+                "second_name = ?, " +
+                "company_id = ?, " +
+                "privileges = ?, " +
+                "enabled = ?, " +
+                "locked = ?,  " +
+                "expired = ?,  " +
+                "email = ?,  " +
+                "`phone-number` = ?" +
+                " WHERE username = ? ";
+        template.update(sql, setter -> {
+            setter.setString(1, username);
+            setter.setString(2, newValue.getPassword());
+            setter.setString(3, newValue.getFirstName());
+            setter.setString(4, newValue.getSecondName());
+            Company company = newValue.getCompany();
+            if (company != null)
+                setter.setString(5, company.getId().toString());
+            else setter.setString(5, "");
+            setter.setString(6, newValue.getAuthorities().get(0).toString());
+            setter.setBoolean(7, newValue.isEnabled());
+            setter.setBoolean(8, !newValue.isAccountNonLocked());
+            setter.setBoolean(9, !newValue.isAccountNonExpired());
+            setter.setString(10, newValue.getEmail());
+            setter.setString(11, newValue.getPhoneNumber());
+            setter.setString(12, username);
+        });
     }
 
     @Override
     public void delete(String username) {
-//later
+        String sql = "DELETE FROM `recruiting-server`.users WHERE username = ?";
+        template.update(sql, setter -> setter.setString(1, username));
     }
 
 }
