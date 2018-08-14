@@ -9,7 +9,6 @@ import java.io.IOException;
 public class NoRedirectStrategy implements RedirectStrategy {
     @Override
     public void sendRedirect(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String s) throws IOException {
-        System.out.println("SUCCESS");
-        httpServletResponse.addHeader("TI", "DAUN");
+        // no redirect
     }
 }

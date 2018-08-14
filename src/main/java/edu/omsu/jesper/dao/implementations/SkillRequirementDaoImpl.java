@@ -23,7 +23,6 @@ public class SkillRequirementDaoImpl implements SkillRequirementDao {
     }
 
 
-    @Override
     public void save(UUID vacancyId, SkillRequirement skillRequirement) {
         sql = "INSERT INTO `recruiting-server`.skill_requirements(vacancy_id, name, level,important)" +
                 " values (?,?,?,?)";
@@ -35,12 +34,12 @@ public class SkillRequirementDaoImpl implements SkillRequirementDao {
         });
     }
 
-    @Override
+
     public void update(UUID vacancyId, String skillName, SkillRequirement newValue) {
 
     }
 
-    @Override
+
     public void delete(UUID vacancyID, String skillName) {
 
     }
