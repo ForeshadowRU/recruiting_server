@@ -12,4 +12,5 @@ public class DefaultValidator {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
+
 }

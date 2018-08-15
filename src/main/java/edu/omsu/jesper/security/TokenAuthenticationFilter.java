@@ -1,6 +1,8 @@
 package edu.omsu.jesper.security;
 
+import edu.omsu.jesper.validator.HttpError;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,8 +52,8 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
                                               HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
 
-        response.getWriter().print("AUTH FAILED.\nReason:");
-        response.getWriter().print(failed);
+        HttpError error = new HttpError(HttpStatus.UNAUTHORIZED, failed.getMessage());
+        response.getWriter().print(error);
     }
 
     @Override

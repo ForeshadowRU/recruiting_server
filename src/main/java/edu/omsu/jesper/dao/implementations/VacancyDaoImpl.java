@@ -1,5 +1,6 @@
 package edu.omsu.jesper.dao.implementations;
 
+import edu.omsu.jesper.dao.interfaces.UserDao;
 import edu.omsu.jesper.dao.interfaces.VacancyDao;
 import edu.omsu.jesper.mapper.SkillRequirementMapper;
 import edu.omsu.jesper.mapper.VacancyMapper;
@@ -17,38 +18,41 @@ import java.util.UUID;
 public class VacancyDaoImpl implements VacancyDao {
 
     private final JdbcTemplate template;
-
+    private final UserDao userDao;
 
     @Autowired
-    public VacancyDaoImpl(JdbcTemplate template) {
+    public VacancyDaoImpl(JdbcTemplate template, UserDao userDao) {
         this.template = template;
+        this.userDao = userDao;
     }
 
     @Override
     public List<Vacancy> get() {
-        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency" +
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency, publisher" +
                 " FROM `recruiting-server`.vacancies RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id";
         return template.query(sql, new VacancyMapper(template));
     }
 
     @Override
-    public List<Vacancy> get(UUID id) {
-        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies " +
+    public Vacancy get(UUID id) {
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency,publisher FROM `recruiting-server`.vacancies " +
                 "RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id" +
                 " WHERE id = ?";
-        return template.query(sql, new VacancyMapper(template), id.toString());
+        List<Vacancy> list = template.query(sql, new VacancyMapper(template), id.toString());
+        if (list.isEmpty()) return null;
+        else return list.get(0);
     }
 
     @Override
     public List<Vacancy> getByAuthor(UUID authorId) {
-        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies" +
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency,publisher FROM `recruiting-server`.vacancies" +
                 " RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id WHERE author_id = ?";
         return template.query(sql, new VacancyMapper(template), authorId.toString());
     }
 
     @Override
     public List<Vacancy> getByAuthor(Company company) {
-        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency FROM `recruiting-server`.vacancies" +
+        String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency,publisher FROM `recruiting-server`.vacancies" +
                 " RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id WHERE author_id = ?";
         return template.query(sql, new VacancyMapper(template), company.getId().toString());
     }
@@ -67,7 +71,36 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public void save(Vacancy vacancy) {
-
+        String sql = "INSERT INTO `recruiting-server`.vacancies(id, name, description, author_id, hidden, creation_date, publisher)" +
+                " VALUES(?,?,?,?,?,?,?)";
+        template.update(sql, setter -> {
+            setter.setString(1, vacancy.getId().toString());
+            setter.setString(2, vacancy.getName());
+            setter.setString(3, vacancy.getFullDescription());
+            setter.setString(4, vacancy.getAuthor().getId().toString());
+            setter.setBoolean(5, vacancy.isHidden());
+            setter.setString(6, vacancy.getCreationDate().toString());
+            setter.setString(7, vacancy.getPublisher().toString());
+        });
+        sql = "INSERT INTO `recruiting-server`.salaries(vacancy_id, amount, type, currency) " +
+                "VALUES(?,?,?,?)";
+        template.update(sql, setter -> {
+            setter.setString(1, vacancy.getId().toString());
+            setter.setDouble(2, vacancy.getSalary());
+            setter.setString(3, String.valueOf(vacancy.getType()));
+            setter.setString(4, String.valueOf(vacancy.getCurrency()));
+        });
+        List<SkillRequirement> requirements = vacancy.getRequirements();
+        for (SkillRequirement skill : requirements) {
+            sql = "INSERT INTO `recruiting-server`.skill_requirements(vacancy_id, name, level, important)" +
+                    " VALUES(?,?,?,?)";
+            template.update(sql, setter -> {
+                setter.setString(1, vacancy.getId().toString());
+                setter.setString(2, skill.getName());
+                setter.setInt(3, skill.getLevel());
+                setter.setBoolean(4, skill.isImportant());
+            });
+        }
     }
 
     @Override
@@ -77,6 +110,11 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public void delete(UUID id) {
-
+        String sql = "DELETE FROM `recruiting-server`.salaries WHERE vacancy_id = ?";
+        template.update(sql, setter -> setter.setString(1, id.toString()));
+        sql = "DELETE FROM `recruiting-server`.skill_requirements WHERE vacancy_id = ?";
+        template.update(sql, setter -> setter.setString(1, id.toString()));
+        sql = "DELETE FROM `recruiting-server`.vacancies WHERE id = ?";
+        template.update(sql, setter -> setter.setString(1, id.toString()));
     }
 }

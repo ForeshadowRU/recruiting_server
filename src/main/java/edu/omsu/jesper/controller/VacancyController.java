@@ -31,7 +31,7 @@ public class VacancyController {
     }
 
     @GetMapping("/{id}")
-    public List<Vacancy> get(@PathVariable String id) {
+    public Vacancy get(@PathVariable String id) {
         return dao.get(UUID.fromString(id));
     }
 

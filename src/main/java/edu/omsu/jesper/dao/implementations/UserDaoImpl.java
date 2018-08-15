@@ -199,7 +199,7 @@ public class UserDaoImpl implements UserDao {
 
        }
    */
-    //this is very borying Should write my own Hibernate with blackjack and hookers;
+    //this is very boring Should write my own Hibernate with blackjack and hookers;
     @Override
     public void update(String username, User newValue) {
         String sql = "UPDATE `recruiting-server`.users " +

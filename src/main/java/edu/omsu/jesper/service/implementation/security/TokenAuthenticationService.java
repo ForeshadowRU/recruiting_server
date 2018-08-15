@@ -7,6 +7,7 @@ import edu.omsu.jesper.service.interfaces.security.TokenService;
 import edu.omsu.jesper.service.interfaces.security.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,7 +26,9 @@ public class TokenAuthenticationService implements UserAuthenticationService {
 
     @Override
     public String login(String username, String password) {
-        if (Objects.equals(userDao.get(username).getPassword(), password)) {
+        User user = userDao.get(username);
+        if (user == null) throw new UsernameNotFoundException(String.format("No user %s found", username));
+        if (Objects.equals(user.getPassword(), password)) {
             return tokenService.expiring(ImmutableMap.of("username", username));
         } else throw new BadCredentialsException("Wrong username/password");
 

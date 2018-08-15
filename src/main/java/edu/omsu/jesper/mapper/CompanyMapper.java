@@ -9,6 +9,9 @@ import java.util.UUID;
 
 public class CompanyMapper implements RowMapper<Company> {
 
+    public CompanyMapper() {
+    }
+
     public Company mapRow(ResultSet resultSet, int i) throws SQLException {
         Company company = new Company();
         company.setName(resultSet.getString("name"));
@@ -16,6 +19,7 @@ public class CompanyMapper implements RowMapper<Company> {
         company.setId(UUID.fromString(resultSet.getString("id")));
         company.setFoundationDate(resultSet.getDate("foundation_date").toLocalDate());
         company.setRegistrationDate(resultSet.getDate("registration_date").toLocalDate());
+        company.setOwner(resultSet.getString("owner"));
         return company;
     }
 }

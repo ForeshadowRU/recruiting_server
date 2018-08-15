@@ -2,22 +2,34 @@ package edu.omsu.jesper.model;
 
 import edu.omsu.jesper.enums.SalaryType;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Currency;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Vacancy {
+    @NotNull
     private UUID id;
+    @NotNull
     private String name;
+    @NotNull
     private String fullDescription;
     private String description;
+    @NotNull
     private Company author;
+
     private double salary;
+    @NotNull
     private SalaryType type;
+    @NotNull
     private Currency currency;
-    private boolean hidden;
-    private Date creationDate;
+    private boolean hidden = false;
+    private LocalDateTime creationDate;
+
+    private String publisher;
+
     private List<SkillRequirement> requirements;
 
     public Vacancy() {
@@ -71,7 +83,7 @@ public class Vacancy {
         this.currency = currency;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
@@ -99,7 +111,7 @@ public class Vacancy {
         this.type = type;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -109,5 +121,54 @@ public class Vacancy {
 
     public void setRequirements(List<SkillRequirement> requirements) {
         this.requirements = requirements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vacancy vacancy = (Vacancy) o;
+        return Double.compare(vacancy.salary, salary) == 0 &&
+                hidden == vacancy.hidden &&
+                Objects.equals(id, vacancy.id) &&
+                Objects.equals(name, vacancy.name) &&
+                Objects.equals(fullDescription, vacancy.fullDescription) &&
+                Objects.equals(description, vacancy.description) &&
+                Objects.equals(author, vacancy.author) &&
+                type == vacancy.type &&
+                Objects.equals(currency, vacancy.currency) &&
+                Objects.equals(creationDate, vacancy.creationDate) &&
+                Objects.equals(requirements, vacancy.requirements);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, fullDescription, description, author, salary, type, currency, hidden, creationDate, requirements);
+    }
+
+    @Override
+    public String toString() {
+        return "Vacancy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fullDescription='" + fullDescription + '\'' +
+                ", description='" + description + '\'' +
+                ", author=" + author +
+                ", salary=" + salary +
+                ", type=" + type +
+                ", currency=" + currency +
+                ", hidden=" + hidden +
+                ", creationDate=" + creationDate +
+                ", requirements=" + requirements +
+                '}';
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 }

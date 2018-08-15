@@ -11,7 +11,7 @@ public interface VacancyDao {
 
     List<Vacancy> get();
 
-    List<Vacancy> get(UUID id);
+    Vacancy get(UUID id);
 
     List<Vacancy> getByAuthor(UUID authorId);
 
