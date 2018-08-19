@@ -51,9 +51,11 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     protected void unsuccessfulAuthentication(HttpServletRequest request,
                                               HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         HttpError error = new HttpError(HttpStatus.UNAUTHORIZED, failed.getMessage());
         response.getWriter().print(error);
+        response.getWriter().print(failed);
+        this.getFailureHandler().onAuthenticationFailure(request, response, failed);
     }
 
     @Override
@@ -63,7 +65,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
             final FilterChain chain,
             final Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
-        response.addHeader("auth-test", "USPESHNO");
         chain.doFilter(request, response);
     }
 

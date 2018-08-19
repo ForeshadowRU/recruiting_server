@@ -3,6 +3,7 @@ package edu.omsu.jesper.config;
 import edu.omsu.jesper.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -31,7 +32,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         super();
         this.point = point;
         PUBLIC_URLS = new OrRequestMatcher(
-                new AntPathRequestMatcher("/public/**")
+                new AntPathRequestMatcher("/public/**"),
+                new AntPathRequestMatcher("/companies/**", "GET", false),
+                new AntPathRequestMatcher("/vacancies/**", "GET", false),
+                new AntPathRequestMatcher("/users/**", "GET", false)
         );
         PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
         this.provider = provider;
@@ -63,10 +67,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .logout().disable()
-                .authorizeRequests().antMatchers("/public/**", "/error").permitAll();
+                .authorizeRequests().antMatchers("/public/**", "/error/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/vacancies/**"
+                        , "/companies/", "/users").permitAll()
+                .anyRequest().authenticated();
     }
 
-    protected TokenAuthenticationFilter getJwtFilter() throws Exception {
+    private TokenAuthenticationFilter getJwtFilter() throws Exception {
         TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
         filter.setAuthenticationManager(authenticationManagerBean());

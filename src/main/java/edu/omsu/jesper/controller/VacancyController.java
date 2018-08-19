@@ -40,7 +40,6 @@ public class VacancyController {
         return dao.getByAuthor(authorId);
     }
 
-
     @PostMapping("/condition")
     public List<Vacancy> getAllThatRequireSkills(@RequestBody List<String> skills) {
         List<String> validated = new ArrayList<>();

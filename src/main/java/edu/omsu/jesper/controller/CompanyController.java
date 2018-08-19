@@ -53,8 +53,7 @@ public class CompanyController {
 
     }
 
-
-    @GetMapping("/companies/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable String id) {
         Company company = companyDao.get(UUID.fromString(id));
         if (company != null) return new ResponseEntity<>(company, HttpStatus.OK);

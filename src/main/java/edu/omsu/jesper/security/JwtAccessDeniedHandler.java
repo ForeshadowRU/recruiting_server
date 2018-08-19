@@ -1,5 +1,7 @@
 package edu.omsu.jesper.security;
 
+import edu.omsu.jesper.validator.HttpError;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -13,7 +15,9 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
                        AccessDeniedException e) throws IOException, ServletException {
-        response.sendError(1, e.getMessage());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        HttpError error = new HttpError(HttpStatus.UNAUTHORIZED, e.getMessage());
+        response.getWriter().print(error);
         response.getWriter().print(e);
     }
 }

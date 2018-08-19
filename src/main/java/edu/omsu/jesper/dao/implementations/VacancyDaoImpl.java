@@ -80,7 +80,7 @@ public class VacancyDaoImpl implements VacancyDao {
             setter.setString(4, vacancy.getAuthor().getId().toString());
             setter.setBoolean(5, vacancy.isHidden());
             setter.setString(6, vacancy.getCreationDate().toString());
-            setter.setString(7, vacancy.getPublisher().toString());
+            setter.setString(7, vacancy.getPublisher());
         });
         sql = "INSERT INTO `recruiting-server`.salaries(vacancy_id, amount, type, currency) " +
                 "VALUES(?,?,?,?)";
