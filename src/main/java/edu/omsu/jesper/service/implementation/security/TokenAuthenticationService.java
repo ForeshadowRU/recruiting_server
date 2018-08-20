@@ -2,6 +2,7 @@ package edu.omsu.jesper.service.implementation.security;
 
 import com.google.common.collect.ImmutableMap;
 import edu.omsu.jesper.dao.implementations.UserDaoImpl;
+import edu.omsu.jesper.dto.LoginResponse;
 import edu.omsu.jesper.model.User;
 import edu.omsu.jesper.service.interfaces.security.TokenService;
 import edu.omsu.jesper.service.interfaces.security.UserAuthenticationService;
@@ -25,7 +26,27 @@ public class TokenAuthenticationService implements UserAuthenticationService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public LoginResponse getResponse(String username, String password) {
+        User user = userDao.get(username);
+        if (user == null) throw new UsernameNotFoundException(String.format("No user %s found", username));
+        if (Objects.equals(user.getPassword(), password)) {
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.token = tokenService.expiring(ImmutableMap.of("username", username));
+            loginResponse.username = user.getUsername();
+            loginResponse.email = user.getEmail();
+            loginResponse.firstName = user.getFirstName();
+            loginResponse.lastName = user.getSecondName();
+            if (user.getCompany() != null)
+                loginResponse.companyId = user.getCompany().getId().toString();
+            else loginResponse.companyId = null;
+            loginResponse.phoneNumber = user.getPhoneNumber();
+            return loginResponse;
+
+        } else throw new BadCredentialsException("Wrong username/password");
+    }
+
+    @Override
+    public String getTokenFor(String username, String password) {
         User user = userDao.get(username);
         if (user == null) throw new UsernameNotFoundException(String.format("No user %s found", username));
         if (Objects.equals(user.getPassword(), password)) {

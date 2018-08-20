@@ -57,7 +57,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            return new ResponseEntity<>(authentication.login(request.login, request.password), HttpStatus.OK);
+            return new ResponseEntity<>(authentication.getResponse(request.login, request.password), HttpStatus.OK);
         } catch (Exception ex) {
             HttpError error = new HttpError();
             error.setMessage(ex.getMessage());
