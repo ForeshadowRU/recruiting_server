@@ -9,6 +9,7 @@ import edu.omsu.jesper.service.interfaces.security.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -18,11 +19,12 @@ public class TokenAuthenticationService implements UserAuthenticationService {
 
     private final TokenService tokenService;
     private final UserDaoImpl userDao;
-
+    private final PasswordEncoder encoder;
     @Autowired
-    public TokenAuthenticationService(TokenService tokenService, UserDaoImpl userDao) {
+    public TokenAuthenticationService(TokenService tokenService, UserDaoImpl userDao, PasswordEncoder encoder) {
         this.tokenService = tokenService;
         this.userDao = userDao;
+        this.encoder = encoder;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class VacancyDaoImpl implements VacancyDao {
     @Override
     public List<Vacancy> get() {
         String sql = "SELECT id,name,description,author_id,hidden,creation_date,amount as 'salary_amount', type,currency, publisher" +
-                " FROM `recruiting-server`.vacancies RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id";
+                " FROM `recruiting-server`.vacancies RIGHT JOIN `recruiting-server`.salaries on vacancies.id = salaries.vacancy_id ORDER BY creation_date ASC";
         return template.query(sql, new VacancyMapper(template));
     }
 

@@ -95,8 +95,9 @@ public class UserDaoImpl implements UserDao {
                         else {
                             String companySql = "SELECT * FROM `recruiting-server`.companies WHERE id = ?";
                             user.setCompany(template.query(companySql, new CompanyMapper(), company_id).get(0));
+                            users.add(user);
                         }
-                        users.add(user);
+
                     }
                     return users;
                 });

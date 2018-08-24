@@ -82,4 +82,5 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
 
     }
+
 }

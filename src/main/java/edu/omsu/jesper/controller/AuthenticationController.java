@@ -7,6 +7,7 @@ import edu.omsu.jesper.service.interfaces.security.UserAuthenticationService;
 import edu.omsu.jesper.validator.DefaultValidator;
 import edu.omsu.jesper.validator.HttpError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +35,10 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-
+        HttpError error = new HttpError();
         Set<ConstraintViolation<User>> violations = DefaultValidator.validator.validate(user);
         if (!violations.isEmpty()) {
-            HttpError error = new HttpError();
+
             Map<String, String> errors = new HashMap<>();
             for (ConstraintViolation<User> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
@@ -47,7 +48,12 @@ public class AuthenticationController {
             error.setMessage("Validation Failed");
             return new ResponseEntity<>(error, error.getStatus());
         }
-        userDao.save(user);
+        try {
+            userDao.save(user);
+        } catch (DuplicateKeyException ex) {
+            error.setMessage("User named ".concat(user.getUsername().concat(" already exist")));
+            return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        }
         LoginRequest request = new LoginRequest();
         request.login = user.getUsername();
         request.password = user.getPassword();
