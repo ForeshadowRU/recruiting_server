@@ -15,11 +15,9 @@ public class Vacancy {
     @NotNull
     private String name;
     @NotNull
-    private String fullDescription;
     private String description;
     @NotNull
-    private Company author;
-
+    private UUID authorId;
     private double salary;
     @NotNull
     private SalaryType type;
@@ -51,20 +49,12 @@ public class Vacancy {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public @NotNull UUID getAuthorId() {
+        return authorId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Company getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Company author) {
-        this.author = author;
+    public void setAuthorId(UUID authorId) {
+        this.authorId = authorId;
     }
 
     public boolean isHidden() {
@@ -87,12 +77,12 @@ public class Vacancy {
         return creationDate;
     }
 
-    public String getFullDescription() {
-        return fullDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFullDescription(String fullDescription) {
-        this.fullDescription = fullDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getSalary() {
@@ -132,34 +122,34 @@ public class Vacancy {
                 hidden == vacancy.hidden &&
                 Objects.equals(id, vacancy.id) &&
                 Objects.equals(name, vacancy.name) &&
-                Objects.equals(fullDescription, vacancy.fullDescription) &&
                 Objects.equals(description, vacancy.description) &&
-                Objects.equals(author, vacancy.author) &&
+                Objects.equals(authorId, vacancy.authorId) &&
                 type == vacancy.type &&
                 Objects.equals(currency, vacancy.currency) &&
                 Objects.equals(creationDate, vacancy.creationDate) &&
+                Objects.equals(publisher, vacancy.publisher) &&
                 Objects.equals(requirements, vacancy.requirements);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, fullDescription, description, author, salary, type, currency, hidden, creationDate, requirements);
+        return Objects.hash(id, name, description, authorId, salary, type, currency, hidden, creationDate, publisher, requirements);
     }
 
     @Override
     public String toString() {
-        return "Vacancy{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", fullDescription='" + fullDescription + '\'' +
                 ", description='" + description + '\'' +
-                ", author=" + author +
+                ", authorId='" + authorId + '\'' +
                 ", salary=" + salary +
                 ", type=" + type +
                 ", currency=" + currency +
                 ", hidden=" + hidden +
                 ", creationDate=" + creationDate +
+                ", publisher='" + publisher + '\'' +
                 ", requirements=" + requirements +
                 '}';
     }

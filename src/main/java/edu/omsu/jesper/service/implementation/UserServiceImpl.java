@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         if (!userDao.checkExistence(username))
             throw new UsernameNotFoundException(String.format("User %s not found", username));
         User user = userDao.get(username);
-        user.setCompany(company);
+        user.setCompanyId(company.getId());
         userDao.update(username, user);
     }
 

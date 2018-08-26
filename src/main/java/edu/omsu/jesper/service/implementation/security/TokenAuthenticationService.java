@@ -38,8 +38,8 @@ public class TokenAuthenticationService implements UserAuthenticationService {
             loginResponse.email = user.getEmail();
             loginResponse.firstName = user.getFirstName();
             loginResponse.lastName = user.getSecondName();
-            if (user.getCompany() != null)
-                loginResponse.companyId = user.getCompany().getId().toString();
+            if (user.getCompanyId() != null)
+                loginResponse.companyId = user.getCompanyId().toString();
             else loginResponse.companyId = null;
             loginResponse.phoneNumber = user.getPhoneNumber();
             return loginResponse;

@@ -72,9 +72,9 @@ public class VacancyDaoImplTest {
             vacancy.setSalary(2500);
             vacancy.setType(SalaryType.PER_MONTH);
             vacancy.setCurrency(Currency.getInstance("RUB"));
-            vacancy.setAuthor(companies.get().get(0));
+            vacancy.setAuthorId(companies.get().get(0).getId());
             vacancy.setCreationDate(LocalDateTime.now());
-            vacancy.setFullDescription("PRIVET ETO TEST");
+            vacancy.setDescription("PRIVET ETO TEST");
             vacancy.setName("TEST VACANCY");
             vacancy.setHidden(false);
             List<SkillRequirement> requirements = new ArrayList<>();

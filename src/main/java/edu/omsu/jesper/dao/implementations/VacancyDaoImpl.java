@@ -76,8 +76,8 @@ public class VacancyDaoImpl implements VacancyDao {
         template.update(sql, setter -> {
             setter.setString(1, vacancy.getId().toString());
             setter.setString(2, vacancy.getName());
-            setter.setString(3, vacancy.getFullDescription());
-            setter.setString(4, vacancy.getAuthor().getId().toString());
+            setter.setString(3, vacancy.getDescription());
+            setter.setString(4, vacancy.getAuthorId().toString());
             setter.setBoolean(5, vacancy.isHidden());
             setter.setString(6, vacancy.getCreationDate().toString());
             setter.setString(7, vacancy.getPublisher());

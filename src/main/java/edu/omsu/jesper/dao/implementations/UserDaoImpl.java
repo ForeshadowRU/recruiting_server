@@ -1,8 +1,6 @@
 package edu.omsu.jesper.dao.implementations;
 
 import edu.omsu.jesper.dao.interfaces.UserDao;
-import edu.omsu.jesper.mapper.CompanyMapper;
-import edu.omsu.jesper.model.Company;
 import edu.omsu.jesper.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -62,8 +60,7 @@ public class UserDaoImpl implements UserDao {
                         user.setPhoneNumber(extractor.getString("phone-number"));
                         String company_id = extractor.getString("company_id");
                         if (company_id.trim().isEmpty()) return user;
-                        String companySql = "SELECT * FROM `recruiting-server`.companies WHERE id = ?";
-                        user.setCompany(template.query(companySql, new CompanyMapper(), company_id).get(0));
+                        user.setCompanyId(UUID.fromString(company_id));
                         return user;
                     } else return null;
                 });
@@ -93,8 +90,7 @@ public class UserDaoImpl implements UserDao {
                         String company_id = extractor.getString("company_id");
                         if (company_id.trim().isEmpty()) users.add(user);
                         else {
-                            String companySql = "SELECT * FROM `recruiting-server`.companies WHERE id = ?";
-                            user.setCompany(template.query(companySql, new CompanyMapper(), company_id).get(0));
+                            user.setCompanyId(UUID.fromString(company_id));
                             users.add(user);
                         }
 
@@ -116,8 +112,8 @@ public class UserDaoImpl implements UserDao {
                 setter.setString(3, user.getFirstName());
                 setter.setString(4, user.getSecondName());
 
-                if (!(user.getCompany() == null))
-                    setter.setString(5, user.getCompany().getId().toString());
+                if (!(user.getCompanyId() == null))
+                    setter.setString(5, user.getCompanyId().toString());
                 else setter.setString(5, "");
                 setter.setString(6, "ROLE_USER");
                 setter.setBoolean(7, user.isEnabled());
@@ -221,10 +217,7 @@ public class UserDaoImpl implements UserDao {
             setter.setString(2, newValue.getPassword());
             setter.setString(3, newValue.getFirstName());
             setter.setString(4, newValue.getSecondName());
-            Company company = newValue.getCompany();
-            if (company != null)
-                setter.setString(5, company.getId().toString());
-            else setter.setString(5, "");
+            setter.setString(5, String.valueOf(newValue.getCompanyId()));
             setter.setString(6, newValue.getAuthorities().get(0).toString());
             setter.setBoolean(7, newValue.isEnabled());
             setter.setBoolean(8, !newValue.isAccountNonLocked());

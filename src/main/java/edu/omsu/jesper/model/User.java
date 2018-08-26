@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class User implements UserDetails {
     @Size(min = 5, max = 50)
@@ -23,7 +24,7 @@ public class User implements UserDetails {
     @Size(max = 50)
     @NotNull
     private String secondName;
-    private Company company;
+    private UUID companyId;
     @NotNull
     private List<SimpleGrantedAuthority> authorities;
     private boolean enabled = true;
@@ -46,7 +47,7 @@ public class User implements UserDetails {
         firstName = old.firstName;
         secondName = old.secondName;
         password = old.password;
-        company = old.company;
+        companyId = old.companyId;
         email = old.email;
         phoneNumber = old.phoneNumber;
         authorities = new ArrayList<>();
@@ -91,13 +92,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 
     public List<SimpleGrantedAuthority> getAuthorities() {
         return authorities;
@@ -160,21 +154,53 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", companyId=" + companyId +
+                ", authorities=" + authorities +
+                ", enabled=" + enabled +
+                ", accountNonLocked=" + accountNonLocked +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", accountNonExpired=" + accountNonExpired +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(username, user.username) &&
+        return enabled == user.enabled &&
+                accountNonLocked == user.accountNonLocked &&
+                credentialsNonExpired == user.credentialsNonExpired &&
+                accountNonExpired == user.accountNonExpired &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(secondName, user.secondName) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(company, user.company) &&
-                Objects.equals(authorities, user.authorities);
+                Objects.equals(companyId, user.companyId) &&
+                Objects.equals(authorities, user.authorities) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(phoneNumber, user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(username, firstName, secondName, password, company, authorities);
+        return Objects.hash(username, password, firstName, secondName, companyId, authorities, enabled, accountNonLocked, credentialsNonExpired, email, phoneNumber, accountNonExpired);
+    }
+
+    public UUID getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(UUID companyId) {
+        this.companyId = companyId;
     }
 }
