@@ -52,7 +52,7 @@ public class TokenAuthenticationService implements UserAuthenticationService {
         User user = userDao.get(username);
         if (user == null) throw new UsernameNotFoundException(String.format("No user %s found", username));
         if (Objects.equals(user.getPassword(), password)) {
-            return tokenService.expiring(ImmutableMap.of("username", username));
+            return tokenService.permanent(ImmutableMap.of("username", username));
         } else throw new BadCredentialsException("Wrong username/password");
 
     }
